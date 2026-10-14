@@ -2,8 +2,8 @@
 <html lang="ja"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101c23">
-<meta name="description" content="Lunaryth — Dragon Survivalを中心としたMinecraft Java版1.21.1の小さなサーバー。竜として、まだ知らない日常へ。">
-<title>Lunaryth — 竜として、生きる。</title>
+<meta name="description" content="Lunaryth — Minecraft Java版 1.21.1 の MODサーバー。Dragon Survivalを中心とした小さなサーバー。竜として、まだ知らない日常へ。">
+<title>Lunaryth — Minecraft MODサーバー｜竜として、生きる。</title>
 <link id="favicon" rel="icon">
 <style>
 :root{--bg:#101c23;--paper:#eee9dd;--gold:#d4ba86;--muted:#b1bdbd;--line:#ffffff24;--serif:Georgia,"Yu Mincho","Hiragino Mincho ProN",serif}
@@ -166,6 +166,20 @@ html{scroll-behavior:auto}
 .note-cta{padding:46px 7% 54px}
 .note-btn{display:block;padding:20px 16px}
 }
+.mc-badge{display:inline-flex;align-items:center;gap:12px;margin-bottom:14px;padding:10px 24px;border:1px solid var(--gold);background:#081117b8;color:var(--paper);font:700 clamp(21px,3.2vw,32px)/1.3 system-ui,sans-serif;letter-spacing:.05em}
+.mc-spec{display:flex;flex-wrap:wrap;gap:8px 10px;margin-bottom:24px}
+.mc-spec span{padding:3px 14px;border:1px solid #d4ba86aa;background:#081117b8;font-size:15px;letter-spacing:.05em}
+.mc-info{padding:36px 9% 40px;background:#15252d;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.mc-info dl{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin:0}
+.mc-info dl>div{padding-left:16px;border-left:2px solid var(--gold)}
+.mc-info dt{font-size:13px;letter-spacing:.1em;color:var(--gold)}
+.mc-info dd{margin:2px 0 0;font:600 clamp(18px,2vw,22px)/1.5 system-ui,sans-serif}
+.mc-info p{margin:26px 0 0;font-size:15px;color:var(--muted)}
+@media(max-width:760px){
+.mc-badge{padding:9px 18px}
+.mc-info{padding:30px 7% 34px}
+.mc-info dl{grid-template-columns:1fr 1fr;gap:22px 14px}
+}
 .gallery-cta{margin-top:34px;text-align:center}
 .gallery-btn{display:inline-block;padding:18px 44px;border:1px solid var(--gold);color:var(--gold);font-size:17px;letter-spacing:.08em}
 .gallery-btn:hover{background:var(--gold);color:#17282e}
@@ -198,7 +212,7 @@ html{scroll-behavior:auto}
 <header>
 <a class="brand" href="#">
 <img class="logo" alt="" hidden="">
-<span class="brand-text">Lunaryth<small>A DIFFERENT WAY TO SURVIVE</small></span>
+<span class="brand-text">Lunaryth<small>MINECRAFT SERVER</small></span>
 </a>
 <nav aria-label="メインナビゲーション">
 <a href="#about">この世界について</a>
@@ -211,7 +225,8 @@ html{scroll-behavior:auto}
 <section class="hero">
 <img class="hero-bg" id="hero-image" alt="" hidden="">
 <div>
-<p class="eyebrow">✦ MINECRAFT JAVA EDITION · 1.21.1</p>
+<div class="mc-badge"><span>Minecraft サーバー</span></div>
+<div class="mc-spec"><span>Java 版 1.21.1</span><span>MOD サーバー（NeoForge）</span><span>Dragon Survival</span></div>
 <h1>竜として、<br><span>生きる。</span></h1>
 <p>見慣れた世界で、まだ知らない自分に出会う。<br>ここは、少し違う日常がはじまる場所。</p>
 <div class="hero-address">
@@ -231,12 +246,22 @@ html{scroll-behavior:auto}
 </div>
 </section>
 
+<section class="mc-info" aria-label="サーバーの基本情報">
+<dl>
+<div><dt>ゲーム</dt><dd>Minecraft<br>（マインクラフト）</dd></div>
+<div><dt>エディション</dt><dd>Java Edition</dd></div>
+<div><dt>バージョン</dt><dd>1.21.1<br>NeoForge</dd></div>
+<div><dt>サーバーの種類</dt><dd>MODサバイバル<br>Dragon Survival 中心</dd></div>
+</dl>
+<p>Minecraft の Java 版で遊ぶ、MOD 入りのサーバーです。統合版・スマホ版向けの接続方法は案内していません。</p>
+</section>
+
 <section class="section about" id="about">
 <div class="section-label"><p class="eyebrow">01 / THE WORLD</p></div>
 <div class="intro">
 <h2>攻略よりも、<br>発見を持っていこう。</h2>
 <div>
-<p>いつもの Minecraft に、ドラゴンとして暮らすという選択を。Lunaryth は、Dragon Survival を中心とした小規模なサバイバルサーバーです。</p>
+<p>いつもの Minecraft に、ドラゴンとして暮らすという選択を。Lunaryth は、Dragon Survival を中心とした小規模な Minecraft サバイバルサーバーです。</p>
 <p>何に出会い、どう暮らしていくのか。<br>その答えは、ここではまだ語りません。<br>最初の驚きは、あなた自身のものだから。</p>
 </div>
 </div>
