@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101c23">
+<meta name="description" content="Lunaryth のギャラリー。プレイヤーが写した、この世界の日々。">
+<title>ギャラリー｜Lunaryth</title>
+<link rel="icon" href="gallery/logo.png">
+<style>
+:root{--bg:#101c23;--paper:#eee9dd;--gold:#d4ba86;--muted:#b1bdbd;--line:#ffffff24;--serif:Georgia,"Yu Mincho","Hiragino Mincho ProN",serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--paper);font:15px/1.9 system-ui,sans-serif}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+h1,p{margin:0}
+img{display:block;max-width:100%}
+header{padding:20px 6%;display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);background:#0c171d}
+.brand{display:flex;align-items:center;gap:12px;font:27px/1.3 var(--serif);letter-spacing:.06em}
+.logo{width:40px;height:40px;border-radius:50%;object-fit:contain}
+.back,.foot-link{border:1px solid var(--line)}
+.back{font-size:14px;padding:10px 20px}
+.back:hover,.foot-link:hover{color:var(--gold);border-color:var(--gold)}
+.intro{padding:60px 9% 0}
+.eyebrow{font-size:12px;letter-spacing:.19em;color:var(--gold)}
+h1{font:400 clamp(32px,4.4vw,52px)/1.5 var(--serif);letter-spacing:.07em;margin:14px 0 12px}
+.intro p:not(.eyebrow){color:var(--muted);font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:34px 26px;padding:40px 9% 70px}
+.grid figure{margin:0}
+.thumb{display:block;width:100%;padding:0;border:0;background:#091219;overflow:hidden}
+.thumb img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;transition:transform .3s}
+.thumb:hover img{transform:scale(1.03)}
+figcaption{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:14px;letter-spacing:.04em}
+figcaption span:last-child{color:var(--gold)}
+.foot{text-align:center;padding:0 6% 80px}
+.foot-link{display:inline-block;padding:16px 34px;border-color:var(--gold);color:var(--gold);font-size:16px;letter-spacing:.08em}
+.foot-link:hover{background:var(--gold);color:#17282e}
+dialog{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:#04090cf5;color:var(--paper)}
+dialog::backdrop{background:#000}
+.stage{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:56px 72px 20px}
+.stage img{max-width:100%;max-height:calc(100dvh - 150px);object-fit:contain}
+.cap{font-size:15px;text-align:center}
+.cap small{margin-left:12px;font-size:13px;color:var(--gold)}
+.vbtn{position:absolute;border:0;background:none;color:var(--gold)}
+#close{top:10px;right:14px;padding:12px;font-size:15px}
+.step{top:50%;transform:translateY(-50%);padding:10px 16px;font-size:44px;line-height:1}
+#prev{left:6px}
+#next{right:6px}
+@media(max-width:760px){
+header{padding:16px 6%}
+.brand{font-size:23px}
+.intro{padding:44px 7% 0}
+.grid{padding:30px 7% 50px;gap:28px}
+.stage{padding:56px 8px 16px}
+.step{font-size:34px;padding:8px 12px;background:#04090c99}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<header>
+<a class="brand" href="index.html"><img class="logo" src="gallery/logo.png" alt="">Lunaryth</a>
+<a class="back" href="index.html">← トップへ戻る</a>
+</header>
+<main>
+<div class="intro">
+<p class="eyebrow">GALLERY</p>
+<h1>この世界の、日々。</h1>
+<p>Lunaryth のプレイヤー撮影。写真を押すと大きく表示できます。</p>
+</div>
+<div class="grid" id="grid"></div>
+<div class="foot"><a class="foot-link" href="index.html">トップページへ戻る</a></div>
+</main>
+
+<dialog id="viewer" aria-label="写真の拡大表示">
+<button type="button" class="vbtn" id="close">閉じる ×</button>
+<button type="button" class="vbtn step" id="prev" aria-label="前の写真">‹</button>
+<button type="button" class="vbtn step" id="next" aria-label="次の写真">›</button>
+<div class="stage">
+<img id="big" alt="">
+<p class="cap"><span id="cap"></span><small id="cnt"></small></p>
+</div>
+</dialog>
+
+<script>
+// 写真を増やすときは、gallery フォルダに画像を入れて、下の一覧に1行足します。
+// { src:'gallery/ファイル名', title:'画像の下に出るタイトル', alt:'画像の説明(省略可)' }
+const PHOTOS=[
+ {src:'gallery/page_09_01.webp',title:'空の向こうへ',alt:'雲を背に翼を広げて飛ぶ緑色の竜'},
+ {src:'gallery/page_17_01.webp',title:'翼の先に、まだ知らない景色。',alt:'雪の積もった地形の上を飛ぶ青い竜'},
+ {src:'gallery/page_01_01.webp',title:'湖畔で、ひと休み。',alt:'湖畔の花々のそばで休む緑色の竜'},
+ {src:'gallery/page_11_01.webp',title:'竜にも、帰る場所がある。',alt:'木造の明るい部屋で過ごす竜たち'},
+ {src:'gallery/page_19_02.webp',title:'夜が来たら、火を囲んで。',alt:'三日月の下、焚き火の灯りがともる拠点'},
+ {src:'gallery/page_03_02.webp',title:'寄り道の先の、水辺。',alt:'草花の咲く岸辺から見渡す青い湖'},
+ {src:'gallery/page_23_02.webp',title:'月明かりと、静かな時間。',alt:'月明かりに照らされた湖と岸辺の竜'},
+ {src:'gallery/page_24_02.webp',title:'今日の終わりも、この世界で。',alt:'金色の雲が地平線まで続く夕空'}
+];
+
+const grid=document.getElementById('grid');
+const dlg=document.getElementById('viewer');
+const big=document.getElementById('big');
+let cur=0,opener=null,x0=null;
+
+function show(i){
+ cur=(i+PHOTOS.length)%PHOTOS.length;
+ const p=PHOTOS[cur];
+ big.src=p.src;
+ big.alt=p.alt||p.title;
+ document.getElementById('cap').textContent=p.title;
+ document.getElementById('cnt').textContent=(cur+1)+' / '+PHOTOS.length;
+}
+
+PHOTOS.forEach((p,i)=>{
+ const fig=document.createElement('figure');
+ const btn=document.createElement('button');
+ const img=document.createElement('img');
+ const cap=document.createElement('figcaption');
+ const t=document.createElement('span');
+ const n=document.createElement('span');
+ btn.type='button';
+ btn.className='thumb';
+ btn.setAttribute('aria-label',p.title+'（拡大表示）');
+ img.src=p.src;
+ img.alt=p.alt||p.title;
+ img.loading='lazy';
+ img.width=1600;
+ img.height=900;
+ btn.append(img);
+ t.textContent=p.title;
+ n.textContent=String(i+1).padStart(2,'0');
+ cap.append(t,n);
+ fig.append(btn,cap);
+ grid.append(fig);
+ btn.addEventListener('click',()=>{
+  opener=btn;
+  show(i);
+  dlg.showModal();
+  document.body.style.overflow='hidden';
+ });
+});
+
+if(PHOTOS.length<2){
+ document.getElementById('prev').hidden=true;
+ document.getElementById('next').hidden=true;
+}
+document.getElementById('close').onclick=()=>dlg.close();
+document.getElementById('prev').onclick=()=>show(cur-1);
+document.getElementById('next').onclick=()=>show(cur+1);
+dlg.addEventListener('click',e=>{
+ if(e.target===dlg||e.target.classList.contains('stage'))dlg.close();
+});
+dlg.addEventListener('close',()=>{
+ document.body.style.overflow='';
+ opener&&opener.focus();
+});
+document.addEventListener('keydown',e=>{
+ if(!dlg.open)return;
+ if(e.key==='ArrowLeft')show(cur-1);
+ if(e.key==='ArrowRight')show(cur+1);
+});
+dlg.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;},{passive:true});
+dlg.addEventListener('touchend',e=>{
+ if(x0===null)return;
+ const dx=e.changedTouches[0].clientX-x0;
+ x0=null;
+ if(Math.abs(dx)>50)show(dx<0?cur+1:cur-1);
+});
+</script>
+</body></html>
